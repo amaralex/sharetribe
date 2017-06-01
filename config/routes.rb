@@ -168,6 +168,7 @@ Kassi::Application.routes.draw do
     end
 
     namespace :admin do
+      get '' => "getting_started_guide#index"
 
       # Payments
       get  "/paypal_preferences"                      => "paypal_preferences#index"
