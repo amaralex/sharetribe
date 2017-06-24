@@ -34,11 +34,11 @@ module PaypalService
 
     def build_api(request)
       req = request.to_h
-      if (req[:receiver_username])
-        PayPal::SDK::Merchant.new(nil, { subject: req[:receiver_username] })
-      else
+      #if (req[:receiver_username])
+      #  PayPal::SDK::Merchant.new(nil, { subject: req[:receiver_username] })
+      #else
         PayPal::SDK::Merchant.new
-      end
+      #end
     end
 
 
