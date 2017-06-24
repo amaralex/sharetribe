@@ -130,8 +130,9 @@ module PaypalService::Store::PaypalAccount
     private
 
     def query_all(params)
+      params.delete(:person_id)
       query = construct_query(params)
-
+      
       Maybe(
         PaypalAccountModel.where(query)
         .eager_load([:order_permission, :billing_agreement])
@@ -233,7 +234,7 @@ module PaypalService::Store::PaypalAccount
   def get(person_id: nil, community_id:, payer_id:)
     from_model(
       finder.find(
-        #person_id: person_id,
+        person_id: person_id,
         community_id: community_id,
         payer_id: payer_id
       )
@@ -243,7 +244,7 @@ module PaypalService::Store::PaypalAccount
   def get_active(person_id: nil, community_id:)
     from_model(
       finder.find_active(
-        #person_id: person_id,
+        person_id: person_id,
         community_id: community_id
       )
     )
