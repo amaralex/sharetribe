@@ -130,9 +130,8 @@ module PaypalService::Store::PaypalAccount
     private
 
     def query_all(params)
-      params.delete(:person_id)
       query = construct_query(params)
-      
+
       Maybe(
         PaypalAccountModel.where(query)
         .eager_load([:order_permission, :billing_agreement])
