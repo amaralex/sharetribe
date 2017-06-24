@@ -82,6 +82,11 @@ module PaypalService::API
       end
 
       m_acc = AccountStore.get(person_id: payment[:merchant_id], community_id: cid, payer_id: payment[:receiver_id])
+      #### dirty hack :)
+      if m_acc.nil?
+        m_acc = {person_id: payment[:merchant_id], community_id: cid, payer_id: payment[:receiver_id]}
+      end
+      ####      
       if m_acc.nil?
         return log_and_return(Result::Error.new("No matching merchant account for community_id: #{cid} and transaction_id: #{txid}."))
       end
