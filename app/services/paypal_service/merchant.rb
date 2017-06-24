@@ -18,7 +18,7 @@ module PaypalService
             username: config[:api_credentials][:username],
             password: config[:api_credentials][:password],
             signature: config[:api_credentials][:signature],
-            app_id: config[:api_credentials][:app_id],
+            #app_id: config[:api_credentials][:app_id],
           }
           )
       end
@@ -34,11 +34,11 @@ module PaypalService
 
     def build_api(request)
       req = request.to_h
-      if (req[:receiver_username])
-        PayPal::SDK::Merchant.new(nil, { subject: req[:receiver_username] })
-      else
+      #if (req[:receiver_username])
+      #  PayPal::SDK::Merchant.new(nil, { subject: req[:receiver_username] })
+      #else
         PayPal::SDK::Merchant.new
-      end
+      #end
     end
 
 

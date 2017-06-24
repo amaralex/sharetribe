@@ -14,6 +14,8 @@ module PaypalService::API
 
     def with_active_account(cid, pid, &block)
       m_acc = AccountStore.get_active(person_id: pid, community_id: cid)
+      # override whatever is return above with dumm stub
+      m_acc = { payer_id: "IDQTVLKKKPSC3B8", person_id: "whoever"}
       if m_acc.nil?
         return log_and_return(Result::Error.new("Cannot find paypal account for the given community and person: community_id: #{cid}, person_id: #{pid}."))
       else

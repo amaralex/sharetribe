@@ -40,6 +40,7 @@ class PaypalService::CheckoutOrdersController < ApplicationController
     listing_id = params[:listing_id]
 
     proc_status = paypal_process_api.get_status(process_token)
+    warn(proc_status)
     unless (proc_status[:success] && proc_status[:data][:completed])
       return redirect_to error_not_found_path
     end
