@@ -14,6 +14,11 @@ module PaypalService::API
 
     def with_active_account(cid, pid, &block)
       m_acc = AccountStore.get_active(person_id: pid, community_id: cid)
+      #### dirty hack :)
+      if m_acc.nil?
+        m_acc = {person_id: pid, payer_id: 'whatever'}
+      end
+      ####
       if m_acc.nil?
         return log_and_return(Result::Error.new("Cannot find paypal account for the given community and person: community_id: #{cid}, person_id: #{pid}."))
       else
@@ -53,6 +58,11 @@ module PaypalService::API
         community_id: cid,
         payer_id: token[:receiver_id]
       )
+      #### dirty hack :)
+      if m_acc.nil?
+        m_acc = {person_id: token[:merchant_id], payer_id: token[:receiver_id], community_id: cid}
+      end
+      ####
       if m_acc.nil?
         return log_and_return(Result::Error.new("No matching merchant account for community_id: #{cid} and person_id: #{token[:merchant_id]}."))
       end
@@ -72,6 +82,11 @@ module PaypalService::API
       end
 
       m_acc = AccountStore.get(person_id: payment[:merchant_id], community_id: cid, payer_id: payment[:receiver_id])
+      #### dirty hack :)
+      if m_acc.nil?
+        m_acc = {person_id: payment[:merchant_id], community_id: cid, payer_id: payment[:receiver_id]}
+      end
+      ####      
       if m_acc.nil?
         return log_and_return(Result::Error.new("No matching merchant account for community_id: #{cid} and transaction_id: #{txid}."))
       end
