@@ -2060,6 +2060,8 @@ en:
       quantity: "Quantity:"
       subtotal: "Subtotal:"
       shipping-price: "Shipping:"
+      booking_fee: "Booking fee:"
+      booking-fee-explanation: "%{service_name} only charges a small booking fee upfront. You'll pay the rest on the spot upon collecting your wheels!"
     price_per_quantity: "Price per %{unit_type}:"
     price: "Price:"
     quantity: "Quantity: %{quantity}"

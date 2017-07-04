@@ -74,15 +74,16 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   class OrderTotal
-    attr_reader :item_total, :shipping_total
+    attr_reader :item_total, :shipping_total, :booking_fee
 
-    def initialize(item_total:, shipping_total:)
+    def initialize(item_total:, shipping_total:, booking_fee:)
       @item_total = item_total
       @shipping_total = shipping_total
+      @booking_fee = booking_fee
     end
 
     def total
-      item_total.total + shipping_total.total
+      item_total.total + shipping_total.total + booking_fee
     end
   end
 
@@ -240,9 +241,12 @@ class PreauthorizeTransactionsController < ApplicationController
 
       shipping_total = calculate_shipping_from_entity(tx_params: tx_params, listing_entity: listing_entity, quantity: quantity)
 
+      booking_fee = calculate_booking_fee(item_total)
+
       order_total = OrderTotal.new(
         item_total: item_total,
-        shipping_total: shipping_total)
+        shipping_total: shipping_total,
+        booking_fee: booking_fee)
 
       Analytics.record_event(
         flash.now,
@@ -281,7 +285,8 @@ class PreauthorizeTransactionsController < ApplicationController
                  subtotal: subtotal_to_show(order_total),
                  shipping_price: shipping_price_to_show(tx_params[:delivery], shipping_total),
                  total: order_total.total,
-                 unit_type: listing.unit_type)
+                 unit_type: listing.unit_type,
+                 booking_fee: booking_fee)
              }
 
     }
@@ -600,6 +605,21 @@ class PreauthorizeTransactionsController < ApplicationController
     person_entity = MarketplaceService::Person::Query.person(id, @current_community.id)
     person_display_entity = person_entity.merge(
       display_name: PersonViewUtils.person_entity_display_name(person_entity, @current_community.name_display_type)
+    )
+  end
+
+  def calculate_booking_fee(item_total)
+    opts_tx = {
+      unit_price: item_total.unit_price,
+      community_id: @current_community.id
+    }
+
+    set_adapter = TransactionService::Transaction.settings_adapter(:paypal)
+    tx_process_settings = set_adapter.tx_process_settings(opts_tx)
+    TransactionService::Transaction.calculate_commission(
+      item_total.total, 
+      tx_process_settings[:commission_from_seller], 
+      tx_process_settings[:minimum_commission]
     )
   end
 end

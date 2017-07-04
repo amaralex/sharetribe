@@ -52,6 +52,13 @@
       %span.initiate-transaction-shipping-price-value
         = MoneyViewUtils.to_humanized(shipping_price)
 
+  - if booking_fee.present?
+    .initiate-transaction-shipping-price-wrapper
+      %span.initiate-transaction-shipping-price-label
+        = t("transactions.initiate.booking_fee")
+      %span.initiate-transaction-shipping-price-value
+        = "#{MoneyViewUtils.to_humanized(booking_fee)}"
+
   - if total.present?
     .initiate-transaction-total-wrapper
       %span.initiate-transaction-total-label
@@ -61,3 +68,7 @@
           = t("transactions.total")
       %span.initiate-transaction-total-value
         = MoneyViewUtils.to_humanized(total)
+
+  .initiate-transaction-booking-fee-explanation-wrapper
+    %span.initiate-transaction-booking-fee-explanation-label
+      = t("transactions.initiate.booking-fee-explanation")
