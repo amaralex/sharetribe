@@ -2,6 +2,12 @@
 
 set -e
 
+# support passing password as docker secret
+if [[ "$DB_PASSWORD_FILE" ]] ; then
+    DB_PASSWORD=$(cat $DB_PASSWORD_FILE)
+    export DB_PASSWORD
+fi
+
 # Expect to be passed either 'web' or 'worker' as parameter
 APP_MODE="${1-web}"
 
