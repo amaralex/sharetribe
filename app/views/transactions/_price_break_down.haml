@@ -53,10 +53,10 @@
         = MoneyViewUtils.to_humanized(shipping_price)
 
   - if booking_fee.present?
-    .initiate-transaction-shipping-price-wrapper
-      %span.initiate-transaction-shipping-price-label
+    .initiate-transaction-booking-fee-wrapper
+      %span.initiate-transaction-booking-fee-label
         = t("transactions.initiate.booking_fee")
-      %span.initiate-transaction-shipping-price-value
+      %span.initiate-transaction-booking-fee-value
         = "#{MoneyViewUtils.to_humanized(booking_fee)}"
 
   - if total.present?

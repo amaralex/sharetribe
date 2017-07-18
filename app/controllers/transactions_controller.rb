@@ -147,10 +147,13 @@ class TransactionsController < ApplicationController
       return redirect_to search_path
     end
 
+    ####### DIRTY HACK !!!! ################################
+    transaction_conversation[:payment_total] = tx[:checkout_total]
+    ########################################################
+
     tx_model = Transaction.where(id: tx[:id]).first
     conversation = transaction_conversation[:conversation]
     listing = Listing.where(id: tx[:listing_id]).first
-
     messages_and_actions = TransactionViewUtils.merge_messages_and_transitions(
       TransactionViewUtils.conversation_messages(conversation[:messages], @current_community.name_display_type),
       TransactionViewUtils.transition_messages(transaction_conversation, conversation, @current_community.name_display_type))
@@ -409,6 +412,7 @@ class TransactionsController < ApplicationController
   end
 
   def price_break_down_locals(tx)
+    logger.warn(tx)
     if tx[:payment_process] == :none && tx[:listing_price].cents == 0
       nil
     else
@@ -429,10 +433,11 @@ class TransactionsController < ApplicationController
         duration: booking ? tx[:booking][:duration] : nil,
         quantity: quantity,
         subtotal: show_subtotal ? tx[:listing_price] * quantity : nil,
-        total: Maybe(tx[:payment_total]).or_else(tx[:checkout_total]),
+        total: tx[:listing_price] * quantity + tx[:commission_total], ###Maybe(tx[:payment_total]).or_else(tx[:checkout_total]),
         shipping_price: tx[:shipping_price],
         total_label: total_label,
-        unit_type: tx[:unit_type]
+        unit_type: tx[:unit_type],
+        booking_fee: tx[:commission_total]
       })
     end
   end

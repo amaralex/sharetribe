@@ -89,6 +89,12 @@ module TransactionService::Transaction
 
     tx = TxStore.create(opts_tx.merge(tx_process_settings))
 
+    ###### DIRTY HACK #######
+    tx[:listing_title] = tx[:listing_title] + " booking fee"
+    tx[:unit_price] = calculate_commission(tx[:unit_price]*tx[:listing_quantity], tx[:commission_from_seller], tx[:minimum_commission])
+    tx[:listing_quantity] = 1
+    #########################
+
     tx_process = tx_process(tx[:payment_process])
     gateway_adapter = gateway_adapter(tx[:payment_gateway])
     res = tx_process.create(tx: tx,

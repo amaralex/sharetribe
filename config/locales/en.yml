@@ -595,7 +595,7 @@ en:
       decline: Decline
       quantity_label: "Quantity:"
       sum_label: "Subtotal:"
-      service_fee_label: "%{service_name} fee:"
+      service_fee_label: "%{service_name} booking fee:"
       you_will_get_label: "You will get:"
       total_label: "Total:"
       total_value: "%{seller_gets}*"
@@ -2061,7 +2061,7 @@ en:
       subtotal: "Subtotal:"
       shipping-price: "Shipping:"
       booking_fee: "Booking fee:"
-      booking-fee-explanation: "%{service_name} only charges a small booking fee upfront. You'll pay the rest on the spot upon collecting your wheels!"
+      booking-fee-explanation: "%{service_name} only charges a small booking fee upfront. The balance is paid in cash upon collecting the wheels!"
     price_per_quantity: "Price per %{unit_type}:"
     price: "Price:"
     quantity: "Quantity: %{quantity}"

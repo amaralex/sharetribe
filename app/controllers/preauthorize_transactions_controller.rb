@@ -241,7 +241,7 @@ class PreauthorizeTransactionsController < ApplicationController
 
       shipping_total = calculate_shipping_from_entity(tx_params: tx_params, listing_entity: listing_entity, quantity: quantity)
 
-      booking_fee = calculate_booking_fee(item_total)
+      booking_fee = calculate_booking_fee(item_total.unit_price, item_total.quantity)
 
       order_total = OrderTotal.new(
         item_total: item_total,
@@ -608,16 +608,16 @@ class PreauthorizeTransactionsController < ApplicationController
     )
   end
 
-  def calculate_booking_fee(item_total)
+  def calculate_booking_fee(unit_price, quantity)
     opts_tx = {
-      unit_price: item_total.unit_price,
+      unit_price: unit_price,
       community_id: @current_community.id
     }
 
     set_adapter = TransactionService::Transaction.settings_adapter(:paypal)
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
     TransactionService::Transaction.calculate_commission(
-      item_total.total, 
+      unit_price * quantity, 
       tx_process_settings[:commission_from_seller], 
       tx_process_settings[:minimum_commission]
     )
