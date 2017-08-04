@@ -65,11 +65,11 @@
           = t("conversations.accept.sum_label")
         %span.conversation-sum-value
           = MoneyViewUtils.to_humanized(sum)
-      .conversation-service-fee-wrapper
-        %span.conversation-service-fee-label
-          = t("conversations.accept.service_fee_label")
-        %span.conversation-service-fee-value
-          = "-#{MoneyViewUtils.to_humanized(fee)}"
+      -#.conversation-service-fee-wrapper
+      -#  %span.conversation-service-fee-label
+      -#    = t("conversations.accept.service_fee_label")
+      -#  %span.conversation-service-fee-value
+      -#    = "-#{MoneyViewUtils.to_humanized(fee)}"
 
       - if shipping_price
         .conversation-shipping-price-wrapper
@@ -92,19 +92,19 @@
           %span.conversation-total-value
             = MoneyViewUtils.to_humanized(seller_gets)
 
-    - if payment_gateway == :paypal
-      %p
-        = t("conversations.accept.paypal_fee_info", fee_info_link_id: "paypal_fee_info_link").html_safe
+    -#- if payment_gateway == :paypal
+    -#  %p
+    -#    = t("conversations.accept.paypal_fee_info", fee_info_link_id: "paypal_fee_info_link").html_safe
 
-      = render layout: "layouts/lightbox", locals: { id: "paypal_fee_info_content"} do
-        %h2= t("common.paypal_fee_info.title")
-        - text_with_line_breaks_html_safe do
-          - link_to_paypal = link_to(t("common.paypal_fee_info.link_to_paypal_text"), paypal_fees_url, target: "_blank")
-          = t("common.paypal_fee_info.body_text", link_to_paypal: link_to_paypal).html_safe
+    -#  = render layout: "layouts/lightbox", locals: { id: "paypal_fee_info_content"} do
+    -#    %h2= t("common.paypal_fee_info.title")
+    -#    - text_with_line_breaks_html_safe do
+    -#      - link_to_paypal = link_to(t("common.paypal_fee_info.link_to_paypal_text"), paypal_fees_url, target: "_blank")
+    -#      = t("common.paypal_fee_info.body_text", link_to_paypal: link_to_paypal).html_safe
 
-      - content_for :extra_javascript do
-        :javascript
-          $('#paypal_fee_info_link').click(function() { $('#paypal_fee_info_content').lightbox_me({centered: true, zIndex: 1000000}); });
+    -#  - content_for :extra_javascript do
+    -#    :javascript
+    -#      $('#paypal_fee_info_link').click(function() { $('#paypal_fee_info_content').lightbox_me({centered: true, zIndex: 1000000}); });
 
 
   = render partial: "transactions/shipping_address", locals: { shipping_address: shipping_address }
