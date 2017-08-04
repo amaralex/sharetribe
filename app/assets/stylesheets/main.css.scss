@@ -1581,7 +1581,9 @@ input[type=text].delivery-price-field {
 .initiate-transaction-sum-wrapper,
 .initiate-transaction-shipping-price-wrapper,
 .initiate-transaction-booking-fee-wrapper,
-.initiate-transaction-total-wrapper {
+.initiate-transaction-total-wrapper,
+.initiate-transaction-already-paid-wrapper,
+.initiate-transaction-balance-wrapper {
     @include clearfix;
 }
 
@@ -1591,7 +1593,9 @@ input[type=text].delivery-price-field {
 .initiate-transaction-sum-label,
 .initiate-transaction-shipping-price-label,
 .initiate-transaction-booking-fee-label,
-.initiate-transaction-total-label {
+.initiate-transaction-total-label,
+.initiate-transaction-already-paid-label,
+.initiate-transaction-balance-label {
     float: left;
 }
 
@@ -1601,12 +1605,15 @@ input[type=text].delivery-price-field {
 .initiate-transaction-sum-value,
 .initiate-transaction-shipping-price-value,
 .initiate-transaction-booking-fee-value,
-.initiate-transaction-total-value {
+.initiate-transaction-total-value,
+.initiate-transaction-already-paid-value,
+.initiate-transaction-balance-value {
     float: right;
     margin-right: lines(0.25);
 }
 
-.initiate-transaction-total-wrapper {
+.initiate-transaction-total-wrapper,
+.initiate-transaction-balance-wrapper {
     font-weight: bold;
 }
 

@@ -68,6 +68,17 @@
           = t("transactions.total")
       %span.initiate-transaction-total-value
         = MoneyViewUtils.to_humanized(total)
+  - if already_paid.present?
+    .initiate-transaction-already-paid-wrapper
+      %span.initiate-transaction-already-paid-label
+        = t("transactions.initiate.already_paid")
+      %span.initiate-transaction-already-paid-value
+        = MoneyViewUtils.to_humanized(already_paid)
+    .initiate-transaction-balance-wrapper
+      %span.initiate-transaction-balance-label
+        = t("transactions.initiate.balance")
+      %span.initiate-transaction-balance-value
+        = MoneyViewUtils.to_humanized(total-already_paid)
 
   .initiate-transaction-booking-fee-explanation-wrapper
     %span.initiate-transaction-booking-fee-explanation-label

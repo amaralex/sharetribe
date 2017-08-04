@@ -2061,6 +2061,8 @@ en:
       subtotal: "Subtotal:"
       shipping-price: "Shipping:"
       booking_fee: "Booking fee:"
+      already_paid: "Paid:"
+      balance: "Balance:"
       booking-fee-explanation: "%{service_name} only charges a small booking fee upfront. The balance is paid in cash upon collecting the wheels!"
     price_per_quantity: "Price per %{unit_type}:"
     price: "Price:"

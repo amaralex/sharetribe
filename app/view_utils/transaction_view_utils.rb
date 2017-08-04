@@ -24,7 +24,8 @@ module TransactionViewUtils
     [:shipping_price, :money],
     [:total_label, :string],
     [:unit_type, :symbol],
-    [:booking_fee, :money])
+    [:booking_fee, :money],
+    [:already_paid, :money])
 
 
   module_function

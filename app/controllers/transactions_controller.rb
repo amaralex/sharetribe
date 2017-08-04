@@ -437,7 +437,8 @@ class TransactionsController < ApplicationController
         shipping_price: tx[:shipping_price],
         total_label: total_label,
         unit_type: tx[:unit_type],
-        booking_fee: tx[:commission_total]
+        booking_fee: tx[:commission_total],
+        already_paid: tx[:checkout_total]
       })
     end
   end
