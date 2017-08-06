@@ -18,6 +18,9 @@ case "$APP_MODE" in
         else
             rm -f tmp/pids/server.pid
 
+            bundle exec rake ts:index
+            bundle exec rake ts:start
+
             exec bundle exec passenger \
                  start \
                  -p "${PORT-3000}" \

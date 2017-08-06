@@ -8,6 +8,15 @@ RUN apt-get update \
     && apt-get dist-upgrade -y
 
 #
+# Install Sphinx
+#
+
+RUN apt-get install -y mysql-client unixodbc libpq5
+RUN wget http://sphinxsearch.com/files/sphinxsearch_2.2.11-release-1~jessie_amd64.deb
+RUN dpkg -i sphinxsearch_2.2.11-release-1~jessie_amd64.deb
+
+
+#
 # Node (based on official docker node image)
 #
 
@@ -96,6 +105,15 @@ RUN mkdir -p \
        client/app/ \
        public/assets \
        public/webpack
+
+
+###########################
+# Fix permissions. otherwise Sphinx won't work
+#
+
+RUN chown -R app:app /opt/app
+###########################
+
 USER app
 
 # If assets.tar.gz file exists in project root
