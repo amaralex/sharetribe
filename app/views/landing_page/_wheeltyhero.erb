@@ -1,0 +1,58 @@
+<%
+hero_style_variations = {
+  "light" => "hero__section--light",
+  "dark" => "hero__section--dark",
+  "transparent" => "hero__section"
+}
+
+hero_style_variations.default = "hero__section--dark"
+
+section_style_class = hero_style_variations[s["background_image_variation"]]
+%>
+
+<% content_for :hero_css do %>
+  .<%= section_style_class %> {
+    background-image: url('<%= s["background_image"]["src"] %>');
+  }
+
+  .hero__search-button,
+  .hero__search-button:active,
+  .hero__signup-button,
+  .hero__signup-button:active
+  {
+    background-color: rgb(<%= s["search_button_color"]["value"].join(",") %>);
+  }
+
+  .hero__search-button:hover,
+  .hero__search-button:focus,
+  .hero__signup-button:hover,
+  .hero__signup-button:focus {
+    background-color: rgb(<%= s["search_button_color_hover"]["value"].join(",") %>);
+  }
+<% end %>
+
+<section id="<%= section_id %>" class="<%= section_style_class %>">
+  <div class="hero__content">
+    <div class="hero__content-container">
+      <h1 class="hero__title"><%= s["title"]["value"] %></h1>
+      <h3 class="hero__subtitle"><%= render partial: "prevent_widows", locals: { text: s["subtitle"]["value"]} %></h3>
+
+      <% search_mode = s["variation"]["value"] %>
+      <% case search_mode %>
+      <% when "keyword_search", "location_search", "keyword_and_location_search" %>
+
+        <div class="hero__search-bar-padding">
+
+            <a class="hero__signup-button" href="/s?category=bike">Bikes</a>&nbsp;&nbsp;
+            <a class="hero__signup-button" href="/s?category=car">Cars</a>
+        
+        </div>
+
+      <% when "private" %>
+
+        <a class="hero__signup-button" href="<%= s["signup_path"]["value"] %>"><%= s["signup_button"]["value"] %></a>
+
+      <% end %>
+    </div>
+  </div>
+</section>
