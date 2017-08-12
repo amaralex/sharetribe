@@ -13,8 +13,10 @@
     <% section_id = "#{s['kind']}__#{s['id']}__#{index}" %>
 
     <% case s["kind"] %>
-    <% when "hero" %>
+    <% when "whero" %>
       <%= render partial: "wheeltyhero", locals: {section_id: section_id, s: s} %>
+    <% when "hero" %>
+      <%= render partial: "hero", locals: {section_id: section_id, s: s} %>
     <% when "footer" %>
       <%= render partial: "footer", locals: {section_id: section_id, s: s} %>
     <% when "info" %>
