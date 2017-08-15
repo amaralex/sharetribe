@@ -6,6 +6,9 @@
 # - reminders
 #
 
+
+require 'twilio-ruby'
+
 include ApplicationHelper
 include ListingsHelper
 
@@ -46,6 +49,18 @@ class TransactionMailer < ActionMailer::Base
                    payment_expires_in_count: expires_in[:count]
                  }
         }
+      
+            #send sms notification
+            begin
+                @client = Twilio::REST::Client.new APP_CONFIG.twilio_sms_gate_account_sid, APP_CONFIG.twilio_sms_gate_auth_token
+                message = @client.messages.create(
+                    body: "Wheelty.com: you have a new booking!",
+                    to: recipient.phone_number,   
+                    from: APP_CONFIG.twilio_sms_gate_service_sid)  
+            rescue Twilio::REST::TwilioError => e
+                puts e.message
+            end
+                
       end
     end
   end
@@ -64,6 +79,19 @@ class TransactionMailer < ActionMailer::Base
           @community,
           t("emails.transaction_preauthorized_reminder.subject", requester: transaction.starter.name(@community), listing_title: transaction.listing.title)))
     end
+    
+      #send sms notification
+      begin
+          @client = Twilio::REST::Client.new APP_CONFIG.twilio_sms_gate_account_sid, APP_CONFIG.twilio_sms_gate_auth_token
+          message = @client.messages.create(
+              body: "Wheelty.com: you have a booking!",
+              to: recipient.phone_number,   
+              from: APP_CONFIG.twilio_sms_gate_service_sid)  
+      rescue Twilio::REST::TwilioError => e
+          puts e.message
+      end
+    
+    
   end
 
   # seller_model, buyer_model and community can be passed as params for testing purposes

@@ -1,8 +1,11 @@
 # encoding: utf-8
 
+require 'twilio-ruby'
+
 include ApplicationHelper
 include ListingsHelper
 include TruncateHtmlHelper
+
 
 class PersonMailer < ActionMailer::Base
   include MailUtils
@@ -28,6 +31,18 @@ class PersonMailer < ActionMailer::Base
                      :from => community_specific_sender(community),
                      :subject => t("emails.conversation_status_changed.your_request_was_#{transaction.status}"))
     end
+    
+      #send sms notification
+      begin
+          @client = Twilio::REST::Client.new APP_CONFIG.twilio_sms_gate_account_sid, APP_CONFIG.twilio_sms_gate_auth_token
+          message = @client.messages.create(
+              body: "Wheelty.com: you have a new message!",
+              to: recipient.phone_number,   
+              from: APP_CONFIG.twilio_sms_gate_service_sid)  
+      rescue Twilio::REST::TwilioError => e
+          puts e.message
+      end
+    
   end
 
   def new_message_notification(message, community)
@@ -42,6 +57,18 @@ class PersonMailer < ActionMailer::Base
 
       premailer_mail(sending_params)
     end
+      
+      #send sms notification
+      begin
+          @client = Twilio::REST::Client.new APP_CONFIG.twilio_sms_gate_account_sid, APP_CONFIG.twilio_sms_gate_auth_token
+          message = @client.messages.create(
+              body: "Wheelty.com: you have a new message!",
+              to: recipient.phone_number,   
+              from: APP_CONFIG.twilio_sms_gate_service_sid)  
+      rescue Twilio::REST::TwilioError => e
+          puts e.message
+      end
+    
   end
 
   def transaction_confirmed(conversation, community)
